@@ -1,0 +1,164 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0px;
+    font-size: 14px;
+    overflow: hidden;
+    font-family: arial, helvetica, 'sans serif';
+    font-size:13px;
+    color: rgb(90, 90, 90);
+}
+
+.logo {
+    font-size:25px;
+    font-weight: bold;
+    width:170px;
+    float:left;
+    padding-left:30px;
+    
+}
+
+h3 {
+    margin: 0px;
+}
+
+.controls {
+    padding: 5px;
+}
+
+.container {
+    height:94%;
+}
+
+#editor, #unittest {
+    width: 39%;
+    float:left;
+    height: 100%;
+}
+
+.CodeMirror {
+    border-left: 1px solid #bbb;
+    width: 100%;
+    height: 100%;
+}
+
+.CodeMirror-scroll {
+    height: 100%;
+    max-height: 100%;
+
+}
+
+.CodeMirror-gutter {
+    width: 35px;
+}
+
+#result {
+    float: left;
+    font-family: arial, helvetica;
+    font-size: 13px;
+    background-color: rgb(240, 240, 240);
+    width: 21%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+div.result {
+    padding: 7px;
+    margin: 2px;
+    border-radius: 4px;
+}
+
+div.result.true {
+    background-color: #b8eda8;
+    color: green;
+}
+
+div.result.false {
+    background-color: #fcbfc0;
+    color: maroon;
+}
+
+#header {
+    padding:0px;
+    height: 40px;
+    color: rgb(90, 90, 90);
+    background-color: #bbb;
+}
+
+input.btn {
+    border:none;
+    color: white;
+    background-color: rgb(90, 90, 90);
+    padding:5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    cursor: pointer;
+}
+
+input.btn:hover {
+    background-color: rgb(120, 120, 120);
+}
+
+.theModal {
+    position: fixed;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 990;
+}
+
+.popup {
+    position: absolute; 
+    display: none;
+    left: 50%; 
+    top: 20%;
+    z-index: 999;
+}
+
+.popup-body {
+    padding: 15px;
+}
+
+.popup-controls {
+    overflow: auto;
+    float: right;
+    padding: 10px;
+}
+
+.popup-titlebar {
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    background-color: #ddd;
+    border-radius: 5px 5px 0px 0px;
+}
+
+
+.popup-content {
+    position: relative; 
+    left: -50%; 
+    width: 450px;
+    min-height:100px;
+    height: auto;
+    
+    overflow: auto;
+    background-color: #eee;
+
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.75);
+}
+​
+
+
