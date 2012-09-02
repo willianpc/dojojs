@@ -1,3 +1,7 @@
+img {
+    border: none;
+}
+
 html {
     height: 100%;
 }
@@ -26,7 +30,15 @@ h3 {
 }
 
 .controls {
+    float:left;
     padding: 5px;
+    width: 500px;
+}
+
+.github-logo {
+    float: right;
+    padding-right: 15px;
+    width: 80px;
 }
 
 .container {

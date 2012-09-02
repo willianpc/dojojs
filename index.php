@@ -6,11 +6,25 @@ $filename = $_GET['f'];
 <html>
 <head>
 <link rel="shortcut icon" href="favicon.ico"/>
-<title>{dojoJS} Make and share your unit tests</title>
+<title>dojoJS - Create and share your unit tests</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="qunit-1.9.0.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
 <link href="estilo.css" type="text/css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-11163941-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </head>
 <body>
 
@@ -27,6 +41,13 @@ $filename = $_GET['f'];
                 <label for="chkSameFile">Keep the version name</label>
             </span>
         </div>
+        
+        <div class="github-logo">
+            <a href="https://github.com/chambs/dojojs" title="Fork me on Github" target="_blank">
+                <img src="github_logo_mini.png"/>
+            </a>
+        </div>
+        
     </div>
     <div id="editor"></div>
     <div id="unittest"></div>
