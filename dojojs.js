@@ -57,11 +57,11 @@ function sum(a, b) {\n\
     function evaluate() {
         var result = $('#result');
         if(utEditor.getValue() && myCodeMirror.getValue()) {
-        
+
             result.empty();
             var x = myCodeMirror.getValue() + '; ' + utEditor.getValue() + "\nQUnit.start();";
             try {
-                eval(x);
+                (new Function('return '+x))();
             } catch(e) {
             }
         }
@@ -72,15 +72,15 @@ function sum(a, b) {\n\
             var theCode = utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
             save(theCode, location.search.substr(3));
         });
-        
+
         $('.btnNew').click(function() {
             newTest();
         });
-        
+
         $('.btnSwitchView').click(function() {
             switchView();
         });
-        
+
     }
 
     function newTest() {
@@ -90,16 +90,16 @@ function sum(a, b) {\n\
             location = "/qunit/";
         }
     }
-    
+
     var defView = getCookie('defView');
     if(defView == undefined) {
         defView = true;
-    }    
-    
+    }
+
     var ed  = $('#editor'),
         res = $('#result'),
         ut  = $('#unittest');
-        
+
     function switchView() {
 
         if(defView) {
@@ -107,10 +107,10 @@ function sum(a, b) {\n\
             ed.toggleClass('v1 v2');
             res.toggleClass('v1 v2');
             ut.toggleClass('v1 v2');
-            
+
             //utEditor.setSize(null, '90%');
             //myCodeMirror.setSize(null, '90%');
-        
+
         } else {
             //view 1
             ed.toggleClass('v1 v2');
@@ -119,24 +119,24 @@ function sum(a, b) {\n\
 
             //utEditor.setSize(null, null);
             //myCodeMirror.setSize(null, null);
-        
+
         }
-        
+
         utEditor.refresh();
         myCodeMirror.refresh();
 
         defView = !defView;
         setCookie('defView', defView, 90);
     }
-    
+
     function getCookie(c_name) {
         var i, x, y, ARRcookies = d.cookie.split(";");
-        
+
         for (i = 0; i < ARRcookies.length; i++) {
           x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
           y = ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
           x = x.replace(/^\s+|\s+$/g,"");
-          
+
           if (x == c_name) {
             return unescape(y);
           }
@@ -155,7 +155,7 @@ function sum(a, b) {\n\
             switchView();
         }
     }
-    
+
     return {
         a: myCodeMirror,
         initialCode: initialCode,
