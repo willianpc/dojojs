@@ -61,7 +61,7 @@ function sum(a, b) {\n\
             result.empty();
             var x = myCodeMirror.getValue() + '; ' + utEditor.getValue() + "\nQUnit.start();";
             try {
-                (new Function('return '+x))();
+                (new Function(x))();
             } catch(e) {
             }
         }
