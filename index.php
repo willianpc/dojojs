@@ -7,7 +7,7 @@ $filename = isset($_GET['f']) ? $_GET['f'] : "";
     <link rel="shortcut icon" href="favicon.ico"/>
     <title>dojoJS - Create and share your unit tests</title>
     <meta charset="utf8">
-    <link href="qunit-1.9.0.css" type="text/css" rel="stylesheet" />
+    <link href="//code.jquery.com/qunit/qunit-1.13.0.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
     <link href="estilo.css" type="text/css" rel="stylesheet" />
 
@@ -71,15 +71,15 @@ $filename = isset($_GET['f']) ? $_GET['f'] : "";
         
     </div>
 
-    <script src="jquery-1.7.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="CodeMirror-2.32/lib/codemirror-min.js"></script>
     <script src="CodeMirror-2.32/mode/javascript/javascript.js"></script>
-    <script src="qunit-1.9.0.js"></script>
+    <script src="//code.jquery.com/qunit/qunit-1.13.0.js"></script>
     <script>
         dojo_settings = <?php echo file_get_contents("config.json"); ?>;
     </script>
     <script src="dojojs.js"></script>
-
+    
     <script>
     <?php
     $dir = 'sources/';
