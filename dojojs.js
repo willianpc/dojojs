@@ -13,15 +13,12 @@ function sum(a, b) {\n\
   assert.equal( sum(3,6), 9);\n\
 });\n";
 
-    var unitTestEditor = d.getElementById('unittest');
-    var utEditor = CodeMirror(unitTestEditor, {
+    var utEditor = CodeMirror(d.getElementById('unittest'), {
         lineNumbers: true,
         keyMap: 'pcDefault',
 	    value: '',
 	    mode: 'javascript',
-	    onChange: function() {
-            evaluate();
-	    }
+	    onChange: evaluate
     });
 
     var editor = d.getElementById('editor');
@@ -30,23 +27,22 @@ function sum(a, b) {\n\
         keyMap: 'pcDefault',
 	    value: '',
 	    mode: 'javascript',
-	    onChange: function() {
-            evaluate();
-	    }
+	    onChange: evaluate
     });
 
-    function save(code, filename) {
+    function getCodeForSave() {
+        return utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
+    }
+    
+    function save() {
         var ow = $('#chkSameFile').is(':checked');
-        $.post('save.php', {code: code, filename: filename, overwrite: ow}, function(data) {
+        $.post('save.php', {code: getCodeForSave(), filename: location.search.substr(3), overwrite: ow}, function(data) {
             location.search = "f=" + data.filename;
         });
     }
 
     //redefining CTRL+S
-    CodeMirror.commands.save = function(editor) {
-        var theCode = utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
-        save(theCode, location.search.substr(3));
-    };
+    CodeMirror.commands.save = save;
 
     function cb(a) {
         var result = $('#result');
@@ -58,44 +54,32 @@ function sum(a, b) {\n\
         var result = $('#result');
         var utVal = utEditor.getValue(),
             codeVal = myCodeMirror.getValue();
+            
         if(utVal && codeVal) {
-
             result.empty();
             try {
                 (new Function(codeVal + '; ' + utVal + "\nQUnit.start();"))();
-            } catch(e) {
-            }
+            } catch(e) { }
         }
     }
 
     function bindings() {
-        $('.btnSave').click(function() {
-            var theCode = utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
-            save(theCode, location.search.substr(3));
-        });
+        $('.btnSave').click(save);
 
-        $('.btnNew').click(function() {
-            newTest();
-        });
+        $('.btnNew').click(newTest);
 
-        $('.btnSwitchView').click(function() {
-            switchView();
-        });
-
+        $('.btnSwitchView').click(switchView);
     }
 
     function newTest() {
-        if(location.hostname === 'dojojs.com') {
+        if(location.hostname === 'dojojs.com')
             location = "/";
-        } else {
+        else
             location = "/qunit/";
-        }
     }
 
     var defView = getCookie('defView');
-    if(defView == undefined) {
-        defView = true;
-    }
+    if(defView == undefined) defView = true;
 
     var ed  = $('#editor'),
         res = $('#result'),
@@ -109,18 +93,11 @@ function sum(a, b) {\n\
             res.toggleClass('v1 v2');
             ut.toggleClass('v1 v2');
 
-            //utEditor.setSize(null, '90%');
-            //myCodeMirror.setSize(null, '90%');
-
         } else {
             //view 1
             ed.toggleClass('v1 v2');
             res.toggleClass('v1 v2');
             ut.toggleClass('v1 v2');
-
-            //utEditor.setSize(null, null);
-            //myCodeMirror.setSize(null, null);
-
         }
 
         utEditor.refresh();
