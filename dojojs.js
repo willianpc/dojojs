@@ -50,15 +50,29 @@ function sum(a, b) {\n\
         result.append("<div class='result " + a.result + "'><div>Expected result was " + a.expected + "</div><span> Your test " + title.bold() + " returned " + a.actual + "</span><span>" + (a.source || '') + "</span>" + '</div>');
     }
 
-    function evaluate() {
+    function evaluate(which) {
+        which = typeof which !== "undefined" ? which : "both";
+        
         var result = $('#result');
-        var utVal = utEditor.getValue(),
-            codeVal = myCodeMirror.getValue();
+        var utCode = utEditor.getValue(),
+            myCode = myCodeMirror.getValue();
             
-        if(utVal && codeVal) {
+        if(utCode && myCode) {
+            utCode += "\nQUnit.start();";
+            myCode += ";";
+            
+            var evalCode;
+            
+            if(which == "test") {
+                evalCode = utCode;
+            }
+            else {
+                evalCode = utCode + myCode;
+            }
+            
             result.empty();
             try {
-                (new Function(codeVal + '; ' + utVal + "\nQUnit.start();"))();
+                (new Function(evalCode))();
             } catch(e) { }
         }
     }
