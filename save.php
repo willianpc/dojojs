@@ -1,19 +1,28 @@
 <?php
 header('Content-type: application/json');
-$code = $_POST['code'];
-$existingFile = $_POST['filename'];
-$dir = "sources/";
-$sameName = $_POST['overwrite'];
 
-if($existingFile != '' && file_exists($dir . $existingFile) && $sameName == 'true') {
-    $filename = $existingFile;
-} else {
-    $filename = genHash(8);
+//If no message was posted, die with error
+if(!isset($_POST['code'])) {
+    http_response_code(400);
+    die();
 }
 
-$fo = fopen($dir . $filename, 'w+');
-fwrite($fo, $code);
-fclose($fo);
+$code = $_POST['code'];
+$filename = isset($_POST['filename']) ? $_POST['filename'] : "";
+$dir = "sources";
+$sameName = isset($_POST['overwrite']) ? $_POST['overwrite'] : "";
+
+if(!file_exists($dir))
+    mkdir($dir);
+
+$fullpath = "$dir/$filename";
+
+if($filename == '' || !file_exists($fullpath) || $sameName == 'false') {
+    $filename = genHash(8);
+    $fullpath = "$dir/$filename";
+}
+    
+file_put_contents($fullpath, $code);
 
 function genHash($n) {
     $buffer = "";
@@ -25,11 +34,11 @@ function genHash($n) {
         if($low == 0) {
             $letter = strtolower($letter);
         }
-
         $buffer .= $letter;
     }
     return $buffer;
 }
 
+echo json_encode(array("filename" => $filename));
+
 ?>
-{"filename" : "<?=$filename?>"}

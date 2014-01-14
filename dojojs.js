@@ -1,4 +1,7 @@
-var dojojs = (function(w, d, $) {
+var dojojs = (function(w, d, $, settings) {
+    var settings = $.extend({
+        testing: false
+    }, settings);
 
     var initialCode = "/*Insert your functions here*/\n\
     \n\
@@ -35,8 +38,11 @@ function sum(a, b) {\n\
     }
     
     function save() {
-        var ow = $('#chkSameFile').is(':checked');
-        $.post('save.php', {code: getCodeForSave(), filename: location.search.substr(3), overwrite: ow}, function(data) {
+        $.post('save.php', {
+            code: getCodeForSave(),
+            filename: location.search.substr(3),
+            overwrite: $('#chkSameFile').is(':checked')
+        }, function(data) {
             location.search = "f=" + data.filename;
         });
     }
@@ -84,12 +90,12 @@ function sum(a, b) {\n\
 
         $('.btnSwitchView').click(switchView);
     }
-
+    
     function newTest() {
-        if(location.hostname === 'dojojs.com')
-            location = "/";
-        else
+        if(settings.testing)
             location = "/qunit/";
+        else
+            location = "/";
     }
 
     var defView = getCookie('defView');
@@ -161,4 +167,4 @@ function sum(a, b) {\n\
         loadDefaults: loadDefaults
     };
 
-})(window, document, jQuery);
+})(window, document, jQuery, dojo_settings);
