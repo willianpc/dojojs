@@ -56,10 +56,12 @@ function sum(a, b) {\n\
 
     function evaluate() {
         var result = $('#result');
-        if(utEditor.getValue() && myCodeMirror.getValue()) {
+        var utVal = utEditor.getValue(),
+            codeVal = myCodeMirror.getValue();
+        if(utVal && codeVal) {
 
             result.empty();
-            var x = myCodeMirror.getValue() + '; ' + utEditor.getValue() + "\nQUnit.start();";
+            var x = codeVal + '; ' + utVal + "\nQUnit.start();";
             try {
                 (new Function(x))();
             } catch(e) {
