@@ -61,9 +61,8 @@ function sum(a, b) {\n\
         if(utVal && codeVal) {
 
             result.empty();
-            var x = codeVal + '; ' + utVal + "\nQUnit.start();";
             try {
-                (new Function(x))();
+                (new Function(codeVal + '; ' + utVal + "\nQUnit.start();"))();
             } catch(e) {
             }
         }
