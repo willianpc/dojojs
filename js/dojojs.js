@@ -37,13 +37,14 @@ function sum(a, b) {\n\
         return utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
     }
     
-    function save() {
+    function save(event) {
         $.post('save.php', {
             code: getCodeForSave(),
             filename: location.search.substr(3),
             overwrite: $('#chkSameFile').is(':checked')
         }, function(data) {
             location.search = "f=" + data.filename;
+            evaluate();
         });
     }
 
@@ -64,7 +65,7 @@ function sum(a, b) {\n\
             myCode = myCodeMirror.getValue();
             
         if(utCode && myCode) {
-            utCode += "\nQUnit.start();";
+            utCode = "QUnit.stop();\n" + utCode + "\nQUnit.start();";
             myCode += ";";
             
             var evalCode;

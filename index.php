@@ -9,7 +9,7 @@ $filename = isset($_GET['f']) ? $_GET['f'] : "";
     <meta charset="utf8">
     <link href="//code.jquery.com/qunit/qunit-1.13.0.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
-    <link href="estilo.css" type="text/css" rel="stylesheet" />
+    <link href="css/estilo.css" type="text/css" rel="stylesheet" />
 
     <!-- GOOGLE ANALYTICS -->
     <script type="text/javascript">
@@ -40,11 +40,8 @@ $filename = isset($_GET['f']) ? $_GET['f'] : "";
                 </span>
             </div>
             
-            <div class="github-logo">
-                <a href="https://github.com/chambs/dojojs" title="Fork me on Github" target="_blank">
-                    <img src="github_logo_mini.png"/>
-                </a>
-            </div>
+            <!--FORK ME ON GITHUB RIBBON-->
+            <a href="https://github.com/chambs/dojojs"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
             
         </div>
         <div id="editor"></div>
@@ -78,7 +75,7 @@ $filename = isset($_GET['f']) ? $_GET['f'] : "";
     <script>
         dojo_settings = <?php echo file_get_contents("config.json"); ?>;
     </script>
-    <script src="dojojs.js"></script>
+    <script src="js/dojojs.js"></script>
     
     <script>
     <?php
