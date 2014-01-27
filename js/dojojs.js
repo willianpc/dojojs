@@ -1,4 +1,7 @@
-var dojojs = (function(w, d, $) {
+var dojojs = (function(w, d, $, settings) {
+    var settings = $.extend({
+        testing: false
+    }, settings);
 
     var initialCode = "/*Insert your functions here*/\n\
     \n\
@@ -13,15 +16,12 @@ function sum(a, b) {\n\
   assert.equal( sum(3,6), 9);\n\
 });\n";
 
-    var unitTestEditor = d.getElementById('unittest');
-    var utEditor = CodeMirror(unitTestEditor, {
+    var utEditor = CodeMirror(d.getElementById('unittest'), {
         lineNumbers: true,
         keyMap: 'pcDefault',
 	    value: '',
 	    mode: 'javascript',
-	    onChange: function() {
-            evaluate();
-	    }
+	    onChange: evaluate
     });
 
     var editor = d.getElementById('editor');
@@ -30,23 +30,26 @@ function sum(a, b) {\n\
         keyMap: 'pcDefault',
 	    value: '',
 	    mode: 'javascript',
-	    onChange: function() {
-            evaluate();
-	    }
+	    onChange: evaluate
     });
 
-    function save(code, filename) {
-        var ow = $('#chkSameFile').is(':checked');
-        $.post('save.php', {code: code, filename: filename, overwrite: ow}, function(data) {
+    function getCodeForSave() {
+        return utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
+    }
+    
+    function save(event) {
+        $.post('save.php', {
+            code: getCodeForSave(),
+            filename: location.search.substr(3),
+            overwrite: $('#chkSameFile').is(':checked')
+        }, function(data) {
             location.search = "f=" + data.filename;
+            evaluate();
         });
     }
 
     //redefining CTRL+S
-    CodeMirror.commands.save = function(editor) {
-        var theCode = utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
-        save(theCode, location.search.substr(3));
-    };
+    CodeMirror.commands.save = save;
 
     function cb(a) {
         var result = $('#result');
@@ -54,47 +57,50 @@ function sum(a, b) {\n\
         result.append("<div class='result " + a.result + "'><div>Expected result was " + a.expected + "</div><span> Your test " + title.bold() + " returned " + a.actual + "</span><span>" + (a.source || '') + "</span>" + '</div>');
     }
 
-    function evaluate() {
+    function evaluate(which) {
+        which = typeof which !== "undefined" ? which : "both";
+        
         var result = $('#result');
-        if(utEditor.getValue() && myCodeMirror.getValue()) {
-
-            result.empty();
-            var x = myCodeMirror.getValue() + '; ' + utEditor.getValue() + "\nQUnit.start();";
-            try {
-                (new Function(x))();
-            } catch(e) {
+        var utCode = utEditor.getValue(),
+            myCode = myCodeMirror.getValue();
+            
+        if(utCode && myCode) {
+            utCode = "QUnit.stop();\n" + utCode + "\nQUnit.start();";
+            myCode += ";";
+            
+            var evalCode;
+            
+            if(which == "test") {
+                evalCode = utCode;
             }
+            else {
+                evalCode = utCode + myCode;
+            }
+            
+            result.empty();
+            try {
+                (new Function(evalCode))();
+            } catch(e) { }
         }
     }
 
     function bindings() {
-        $('.btnSave').click(function() {
-            var theCode = utEditor.getValue() + '/*RAGABOOM*/' + myCodeMirror.getValue();
-            save(theCode, location.search.substr(3));
-        });
+        $('.btnSave').click(save);
 
-        $('.btnNew').click(function() {
-            newTest();
-        });
+        $('.btnNew').click(newTest);
 
-        $('.btnSwitchView').click(function() {
-            switchView();
-        });
-
+        $('.btnSwitchView').click(switchView);
     }
-
+    
     function newTest() {
-        if(location.hostname === 'dojojs.com') {
-            location = "/";
-        } else {
+        if(settings.testing)
             location = "/qunit/";
-        }
+        else
+            location = "/";
     }
 
     var defView = getCookie('defView');
-    if(defView == undefined) {
-        defView = true;
-    }
+    if(defView == undefined) defView = true;
 
     var ed  = $('#editor'),
         res = $('#result'),
@@ -108,18 +114,11 @@ function sum(a, b) {\n\
             res.toggleClass('v1 v2');
             ut.toggleClass('v1 v2');
 
-            //utEditor.setSize(null, '90%');
-            //myCodeMirror.setSize(null, '90%');
-
         } else {
             //view 1
             ed.toggleClass('v1 v2');
             res.toggleClass('v1 v2');
             ut.toggleClass('v1 v2');
-
-            //utEditor.setSize(null, null);
-            //myCodeMirror.setSize(null, null);
-
         }
 
         utEditor.refresh();
@@ -169,4 +168,4 @@ function sum(a, b) {\n\
         loadDefaults: loadDefaults
     };
 
-})(window, document, jQuery);
+})(window, document, jQuery, dojo_settings);
