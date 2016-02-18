@@ -1,6 +1,6 @@
 <?php
 header('Content-type: application/json');
-
+//some comments, very useful
 //If no message was posted, die with error
 if(!isset($_POST['code'])) {
     http_response_code(400);
