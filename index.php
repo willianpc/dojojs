@@ -5,7 +5,7 @@ $filename = isset($_GET['f']) ? $_GET['f'] : "";
 <html>
 <head>
     <link rel="shortcut icon" href="favicon.ico"/>
-    <title>dojoJS - Create and share your unit tests</title>
+    <title>dojoJS - Create and share your unit tests - DEPRECATED AS HELL</title>
     <meta charset="utf8">
     <link href="//code.jquery.com/qunit/qunit-1.13.0.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
